@@ -1,0 +1,3 @@
+Intreccio is a Minecraft Mod for Neoforge, currently developed on Minecraft 1.21.1
+This Mod will add a bunch of features that will expand on Minecraft...
+Ok... I'll work on a better README
