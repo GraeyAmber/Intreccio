@@ -1,22 +1,15 @@
 package dev.graeyamber.intreccio;
 
 import com.mojang.logging.LogUtils;
-import dev.graeyamber.intreccio.registry.BlockRegistry;
-import dev.graeyamber.intreccio.registry.CreativeTabRegistry;
-import dev.graeyamber.intreccio.registry.ItemRegistry;
+import dev.graeyamber.intreccio.datagen.IntrItemModelProvider;
+import dev.graeyamber.intreccio.registry.IntrBlockRegistry;
+import dev.graeyamber.intreccio.registry.IntrCreativeTabRegistry;
+import dev.graeyamber.intreccio.registry.IntrItemRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,12 +20,10 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -51,11 +42,11 @@ public class Intreccio {
         modEventBus.addListener(this::commonSetup);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
-        BlockRegistry.BLOCKS.register(modEventBus);
+        IntrBlockRegistry.BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
-        ItemRegistry.ITEMS.register(modEventBus);
+        IntrItemRegistry.ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
-        CreativeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
+        IntrCreativeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Intreccio) to respond directly to events.
